@@ -1,32 +1,50 @@
-const index = require('express')();
-const http = require('http').createServer(index);
-const io = require('socket.io')(http);
+import express from 'express';
+import http from 'http';
+import io from 'socket.io';
 
-index.get('/', function(req, res){
+const index = express();
+const server = http.createServer(index);
+const socketIo = io(server);
+
+index.get('/', (req, res) => {
     res.send("<p>Chat Server Page. This page isn't used for chatting.</p>");
 });
 
-// TODO: Chat history / log
-// TODO: Connected users list
+class User {
+    constructor(nickname, color) {
+        this.nickname = nickname;
+        this.color = color
+    }
+}
 
-io.on('connection', function(socket){
+// TODO: Chat history / log
+const chatHistory = [];
+// TODO: Connected users list
+const onlineUsers = [];
+
+socketIo.on('connection', (socket) => {
     // TODO: Assign unique nickname and send to client
-    // TODO:Send chat history
+    socket.emit('userNickname', `${Math.round(Math.random() * 10)}`);
+    socket.emit('userColor', 'RRGGBB');
+    // TODO: Send chat history
+    socket.emit('chat history', chatHistory);
     // TODO: Send online users
+    socket.emit('online users', onlineUsers);
     console.log('a user connected');
-    socket.on('chat message', function(msg) {
+
+    socket.on('chat message', (msg) => {
         // TODO: Check if message is a command
         console.log('message: ' + msg);
         // TODO: Add timestamp to messages
-        io.emit('chat message', msg);
+        socketIo.emit('chat message', msg);
     });
 
-    socket.on('disconnect', function(){
+    socket.on('disconnect', () => {
         // TODO: Send online users
         console.log('user disconnected');
     });
 });
 
-http.listen(3001, function(){
+server.listen(3001, () => {
     console.log('listening on http://localhost:3001/');
 });
