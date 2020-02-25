@@ -16,9 +16,11 @@ code and one for the server-side code.
 #### Steps to Run Client
 
 1. `cd client`
-2. `npm start`
+2. `npm ci` (only first time)
+3. `npm start`
 
 #### Steps to Run Server
 
 1. `cd server`
-2. `npm start`
+2. `npm ci` (only first time)
+3. `npm start`
