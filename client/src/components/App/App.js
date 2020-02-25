@@ -5,16 +5,14 @@ import Chat from "../Chat/Chat";
 import Users from "../Users/Users";
 import io from 'socket.io-client';
 
+/**
+ * App contains both the chat and users components
+ */
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            endpoint: ""
-        }
-    }
-
-    componentDidMount() {
-        const socket = io(this.state.endpoint);
+        // Connect to the socket.io server at this endpoint
+        this.socket = io('http://localhost:3001');
     }
 
     render() {
@@ -23,12 +21,12 @@ class App extends React.Component {
                 <Container>
                     <Row>
                         <Col>
-                            <h1 className="display-4">Chat</h1>
-                            <Chat>a</Chat>
+                            <h2>Chat</h2>
+                            <Chat socket={this.socket}/>
                         </Col>
                         <Col>
-                            <h1 className="display-4">Users</h1>
-                            <Users>b</Users>
+                            <h2>Users</h2>
+                            <Users socket={this.socket}/>
                         </Col>
                     </Row>
                 </Container>

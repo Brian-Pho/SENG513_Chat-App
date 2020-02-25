@@ -1,13 +1,21 @@
 import React from 'react';
 import './Users.css';
-import {Col, Container, Row} from "react-bootstrap";
 
-function Users() {
-  return (
-    <div className="Users">
-        <span>asd</span>
-    </div>
-  );
+/**
+ * Users contains the online users
+ */
+class Users extends React.Component {
+    constructor(props) {
+        super(props);
+        this.socket = props.socket;
+    }
+
+    render() {
+        return (
+            <div className="Users">
+                <span>asd</span>
+            </div>
+        );    }
 }
 
 export default Users;
