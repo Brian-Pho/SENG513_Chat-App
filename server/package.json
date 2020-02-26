@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.mjs",
   "dependencies": {
     "express": "^4.17.1",
     "moment": "^2.24.0",
@@ -10,7 +10,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node --experimental-modules src/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -1,6 +1,7 @@
 import express from 'express';
 import http from 'http';
 import io from 'socket.io';
+import moment from "moment";
 
 const index = express();
 const server = http.createServer(index);
@@ -19,6 +20,7 @@ class User {
 
 // TODO: Chat history / log
 const chatHistory = [];
+
 // TODO: Connected users list
 const onlineUsers = [];
 

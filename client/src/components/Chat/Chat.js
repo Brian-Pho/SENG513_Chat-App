@@ -14,7 +14,7 @@ class Chat extends React.Component {
         this.textInput = React.createRef();
         this.socket = props.socket;
         this.state = {
-            messages: ''
+            chatHistory: []
         };
     }
 
@@ -22,7 +22,10 @@ class Chat extends React.Component {
      * Sets up the socket.io listeners
      */
     componentDidMount() {
-        this.socket.on('chat message', (msg) => this.receiveMsg(msg))
+        this.socket.on('chat history', (chatHistory) => {
+            this.setState({chatHistory: chatHistory})
+        });
+        this.socket.on('chat message', (msg) => this.receiveMsg(msg));
     }
 
     /**
@@ -43,7 +46,7 @@ class Chat extends React.Component {
     render() {
         return (
             <div className="Chat">
-                <span>{this.state.messages}</span>
+                <span>{this.state.chatHistory}</span>
                 <InputGroup className="mb-3">
                     <FormControl ref={this.textInput}/>
                     <InputGroup.Append>
