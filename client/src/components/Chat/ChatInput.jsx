@@ -1,3 +1,8 @@
+/**
+ * Name: Brian Pho
+ * UCID: 10171873
+ * Tutorial section: B03
+ */
 import React from "react";
 import './ChatInput.css';
 import InputGroup from "react-bootstrap/InputGroup";
@@ -10,7 +15,7 @@ class ChatInput extends React.Component {
         // Create a React reference for text input
         this.textInput = React.createRef();
         this.socket = props.socket;
-        this.state = {userInfo: props.user};
+        this.state = {user: props.user};
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -31,7 +36,7 @@ class ChatInput extends React.Component {
         // Reset textInput to empty
         this.textInput.current.value = '';
 
-        // If the user's sending a command
+        // If the user's sending a command, then send it in a different event than a message
         if (currentText.startsWith('/')) {
             this.socket.emit('chat command', currentText);
             // Return here to prevent the command being sent as a message

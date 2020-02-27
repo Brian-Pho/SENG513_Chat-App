@@ -1,3 +1,8 @@
+/**
+ * Name: Brian Pho
+ * UCID: 10171873
+ * Tutorial section: B03
+ */
 import React from "react";
 import moment from "moment";
 import './ChatHistory.css';
@@ -26,9 +31,8 @@ class ChatHistory extends React.Component {
             this.addMsgToHistory(msg);
         });
 
-        // Handle response to command
+        // Handle server response to command
         this.socket.on('chat command', (cmd) => {
-            console.log(cmd);
             this.addMsgToHistory(cmd);
         })
     }
@@ -39,6 +43,10 @@ class ChatHistory extends React.Component {
         }
     }
 
+    /**
+     * Adds a message to the chat history.
+     * @param msg
+     */
     addMsgToHistory(msg) {
         this.setState((state) => ({
             history: state.history.concat(msg)
@@ -66,7 +74,9 @@ class ChatHistory extends React.Component {
     render() {
         return (
             <div className="ChatHistory p-3 rounded">
-            {this.state.history.slice(0).reverse().map((msg, index) => this.formatUserMsg(msg, index))}
+            {this.state.history.slice(0).reverse().map(
+                (msg, index) => this.formatUserMsg(msg, index)
+            )}
             </div>
         );
     }

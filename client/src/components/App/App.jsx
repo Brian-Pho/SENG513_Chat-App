@@ -1,9 +1,16 @@
+/**
+ * Name: Brian Pho
+ * UCID: 10171873
+ * Tutorial section: B03
+ */
 import React from 'react';
+import io from 'socket.io-client';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import './App.css';
-import {Col, Container, Row} from "react-bootstrap";
 import Chat from "../Chat/Chat";
 import Users from "../Users/Users";
-import io from 'socket.io-client';
 
 /**
  * App contains both the chat and users components
@@ -13,7 +20,7 @@ class App extends React.Component {
         super(props);
         // Connect to the socket.io server at this endpoint
         this.socket = io('http://localhost:3001');
-        this.state = {user: {name: 'ERROR', color: 'ERROR'}};
+        this.state = {user: {name: '', color: ''}};
     }
 
     componentDidMount() {

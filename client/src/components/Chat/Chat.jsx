@@ -1,3 +1,8 @@
+/**
+ * Name: Brian Pho
+ * UCID: 10171873
+ * Tutorial section: B03
+ */
 import React from 'react';
 import './Chat.css';
 import ChatInput from "./ChatInput";
@@ -12,6 +17,12 @@ class Chat extends React.Component {
         this.state = {user: props.user};
     }
 
+    /**
+     * Handles user being updated by parent component.
+     * @param prevProps
+     * @param prevState
+     * @param snapshot
+     */
     componentDidUpdate(prevProps, prevState, snapshot) {
         if  (prevProps.user !== this.props.user) {
             this.setState({user: this.props.user});

@@ -1,10 +1,15 @@
+/**
+ * Name: Brian Pho
+ * UCID: 10171873
+ * Tutorial section: B03
+ */
 import React from 'react';
 import './Users.css';
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 
 /**
- * Users contains the online users
+ * Users contains the list of online users
  */
 class Users extends React.Component {
     constructor(props) {
@@ -37,11 +42,14 @@ class Users extends React.Component {
                 <p>Online</p>
                 <div className="Online rounded">
                     <ListGroup>
-                        {this.state.onlineUsers.map((user, index) => this.formatUserItem(user, index))}
+                        {this.state.onlineUsers.map(
+                            (user, index) => this.formatUserItem(user, index)
+                        )}
                     </ListGroup>
                 </div>
             </div>
-        );    }
+        );
+    }
 }
 
 export default Users;
