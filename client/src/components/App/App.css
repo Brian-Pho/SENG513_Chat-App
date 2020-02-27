@@ -4,9 +4,6 @@
  * Tutorial section: B03
  */
 .App {
-  text-align: center;
-}
-
-.col {
+  height: 100vh;
   background-color: #fff2cc;
 }

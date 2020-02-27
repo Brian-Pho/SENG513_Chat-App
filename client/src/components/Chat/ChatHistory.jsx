@@ -67,13 +67,13 @@ class ChatHistory extends React.Component {
         }
 
         return (
-            <p key={index}>{userMsg}</p>
+            <p key={index} className="m-0">{userMsg}</p>
         );
     }
 
     render() {
         return (
-            <div className="ChatHistory p-3 rounded-top">
+            <div className="ChatHistory d-flex flex-column-reverse overflow-auto text-left p-3 h-75 rounded-top">
             {this.state.history.slice(0).reverse().map(
                 (msg, index) => this.formatUserMsg(msg, index)
             )}

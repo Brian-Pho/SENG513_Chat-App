@@ -4,5 +4,5 @@
  * Tutorial section: B03
  */
 .Chat {
-  text-align: center;
+  height: calc(100% - 46px);
 }

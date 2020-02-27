@@ -35,7 +35,7 @@ class Chat extends React.Component {
         };
 
         return (
-            <div className="Chat">
+            <div className="Chat text-center">
                 <p>You are <b style={userColor}>{this.state.user.name}</b>.</p>
                 <ChatHistory socket={this.props.socket} user={this.state.user}/>
                 <ChatInput socket={this.props.socket} user={this.state.user}/>

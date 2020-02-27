@@ -38,9 +38,9 @@ class Users extends React.Component {
 
     render() {
         return (
-            <div className="Users">
+            <div className="Users text-center">
                 <p>Online</p>
-                <div className="Online rounded">
+                <div className="Online overflow-auto rounded h-75">
                     <ListGroup>
                         {this.state.onlineUsers.map(
                             (user, index) => this.formatUserItem(user, index)

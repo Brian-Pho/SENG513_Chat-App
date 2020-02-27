@@ -4,14 +4,5 @@
  * Tutorial section: B03
  */
 .ChatHistory {
-  text-align: left;
   background-color: white;
-  height: 500px;
-  overflow: auto;
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-p {
-  margin: 0;
 }

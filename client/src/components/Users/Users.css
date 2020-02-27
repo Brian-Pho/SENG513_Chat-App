@@ -4,10 +4,5 @@
  * Tutorial section: B03
  */
 .Users {
-  text-align: center;
-}
-
-.Online {
-  height: 500px;
-  overflow: auto;
+  height: calc(100% - 46px);
 }

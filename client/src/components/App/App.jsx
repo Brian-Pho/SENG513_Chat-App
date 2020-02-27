@@ -31,14 +31,14 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className="App">
-                <Container>
-                    <Row>
-                        <Col className="rounded-left">
+            <div className="App text-center">
+                <Container className="container-fluid h-100">
+                    <Row className="rounded-bottom h-100">
+                        <Col md={8} className="h-100">
                             <h2>Chat</h2>
                             <Chat socket={this.socket} user={this.state.user}/>
                         </Col>
-                        <Col className="rounded-right">
+                        <Col md={4} className="h-100">
                             <h2>Users</h2>
                             <Users socket={this.socket}/>
                         </Col>
