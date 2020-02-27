@@ -41,7 +41,13 @@ class ChatInput extends React.Component {
         return (
             <div className="ChatInput rounded">
                 <InputGroup className="mb-3">
-                    <FormControl ref={this.textInput}/>
+                    <FormControl
+                        ref={this.textInput}
+                        onKeyPress={event => {
+                            if (event.key === "Enter") {
+                                this.sendMsg()
+                            }
+                        }}/>
                     <InputGroup.Append>
                         <Button
                             variant="outline-success"
