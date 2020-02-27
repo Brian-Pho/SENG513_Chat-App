@@ -57,7 +57,7 @@ class ChatHistory extends React.Component {
         // Get the message user's color
         const userColor = {color: `#${msg.user.color}`};
         // Get the message timestamp and format it
-        const timestamp = moment.unix(msg.timestamp).format("H:m");
+        const timestamp = moment.unix(msg.timestamp).format("H:mm");
         // Build the message to be display
         let userMsg = (<>{timestamp} <span style={userColor}>{msg.user.name}</span>: {msg.text}</>);
 

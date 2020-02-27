@@ -20,7 +20,7 @@ class App extends React.Component {
         super(props);
         // Connect to the socket.io server at this endpoint
         this.socket = io('http://localhost:3001');
-        this.state = {user: {name: '', color: ''}};
+        this.state = {user: {name: 'Offline', color: '808080'}};
     }
 
     componentDidMount() {

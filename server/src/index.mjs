@@ -22,14 +22,22 @@ index.get('/', (req, res) => {
 const chatHistory = [];
 // List of online users
 const onlineUsers = [];
+// User counter used for unique usernames
+let countUser = 0;
+// Server user
+const serverUser = {
+    name: "Server",
+    color: "000000",
+};
 
 // On connection of a new client
 allSockets.on('connection', (socket) => {
     // Autogenerate the connected user
     const user = {
-        name: `User${Math.round(Math.random() * 10)}`,
+        name: `User${countUser}`,
         color: `${Math.floor(Math.random() * 16777215).toString(16)}`,
     };
+    countUser++;
     onlineUsers.push(user);
 
     // Send the initial data dump of the client's user, chat history, and online users
@@ -40,9 +48,9 @@ allSockets.on('connection', (socket) => {
 
     // Handle chat messages
     socket.on('chat message', (msg) => {
-        chatHistory.push(msg);
         // Calculate message timestamp
         msg.timestamp = moment().unix();
+        chatHistory.push(msg);
         allSockets.emit('chat message', msg);
         console.log('msg: ' + JSON.stringify(msg));
     });
@@ -50,10 +58,8 @@ allSockets.on('connection', (socket) => {
     // Handle commands
     socket.on('chat command', (cmd) => {
         const serverResponse = {
-            user: {
-                name: "Server",
-                color: "000000"},
-            text: "Successfully handled the command.",
+            user: serverUser,
+            text: "Successfully handled command.",
             timestamp: moment().unix(),
         };
 
@@ -62,11 +68,12 @@ allSockets.on('connection', (socket) => {
             isValidCommand(cmd, onlineUsers);
             handleCommand(cmd, user, onlineUsers);
             allSockets.emit('online users', onlineUsers);
-            socket.emit('chat command', serverResponse);
             socket.emit('user', user);
         }
         catch (err) {
             serverResponse.text = `Error handling command: ${err}`;
+        }
+        finally {
             socket.emit('chat command', serverResponse);
         }
         console.log('cmd: ' + cmd);
