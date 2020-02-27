@@ -1,11 +1,22 @@
+/**
+ * Name: Brian Pho
+ * UCID: 10171873
+ * Tutorial section: B03
+ */
+// List of valid commands
 const validCommands = ['/nick', '/nickcolor'];
 
+/**
+ * Checks if the given command is valid.
+ * @param cmd
+ * @param onlineUsers
+ */
 export function isValidCommand(cmd, onlineUsers) {
     const cmdSplit = cmd.split(" ");
 
     // Check number of arguments
     if (cmdSplit.length !== 2) {
-        throw `Invalid number of arguments. (${cmdSplit.length})`;
+        throw `Invalid number (${cmdSplit.length}) of arguments. `;
     }
 
     const command = cmdSplit[0];
@@ -27,18 +38,25 @@ export function isValidCommand(cmd, onlineUsers) {
     }
 }
 
+/**
+ * Handles the given command.
+ * @param cmd
+ * @param user
+ * @param onlineUsers
+ */
 export function handleCommand(cmd, user, onlineUsers) {
     const cmdSplit = cmd.split(" ");
     const command = cmdSplit[0];
     const arg = cmdSplit[1];
     const userIndex = onlineUsers.indexOf(user);
-    console.log(userIndex);
 
+    // Update the user's nickname
     if (command === '/nick') {
         user.name = arg;
         onlineUsers[userIndex].name = arg;
     }
 
+    // Update the user's color
     if (command === '/nickcolor') {
         user.color = arg;
         onlineUsers[userIndex].color = arg;
