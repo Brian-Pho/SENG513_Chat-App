@@ -2,6 +2,7 @@ import express from 'express';
 import http from 'http';
 import io from 'socket.io';
 import moment from "moment";
+import {handleCommand, isValidCommand} from "./commands.mjs";
 
 const index = express();
 const server = http.createServer(index);
@@ -12,7 +13,6 @@ index.get('/', (req, res) => {
 });
 
 const chatHistory = [];
-
 // TODO: Fix bug where disconnecting original user causes all other users to lose online list
 const onlineUsers = [];
 
@@ -34,9 +34,29 @@ allSockets.on('connection', (socket) => {
         chatHistory.push(msg);
         // Calculate message timestamp
         msg.timestamp = moment().unix();
-        // TODO: Check if message is a command
         console.log('msg: ' + JSON.stringify(msg));
         allSockets.emit('chat message', msg);
+    });
+
+    socket.on('chat command', (cmd) => {
+        console.log('cmd: ' + cmd);
+        const serverResponse = {
+            user: {name: "Server", color: "000000"},
+            text: "Successfully handled the command.",
+            timestamp: moment().unix(),
+        };
+
+        try {
+            isValidCommand(cmd, onlineUsers);
+            handleCommand(cmd, user, onlineUsers);
+            allSockets.emit('online users', onlineUsers);
+            socket.emit('chat command', serverResponse);
+            socket.emit('user', user);
+        }
+        catch (err) {
+            serverResponse.text = `Error handling command: ${err}`;
+            socket.emit('chat command', serverResponse);
+        }
     });
 
     socket.on('disconnect', () => {

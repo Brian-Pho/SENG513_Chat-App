@@ -23,18 +23,26 @@ class ChatInput extends React.Component {
      * Sends the user's message to the server
      */
     sendMsg() {
+        const currentText = this.textInput.current.value;
         // If no message, don't do anything
-        if (!this.textInput.current.value) {
+        if (!currentText) {
+            return;
+        }
+        // Reset textInput to empty
+        this.textInput.current.value = '';
+
+        // If the user's sending a command
+        if (currentText.startsWith('/')) {
+            this.socket.emit('chat command', currentText);
+            // Return here to prevent the command being sent as a message
             return;
         }
 
         const msg = {
             user: this.state.user,
-            text: this.textInput.current.value,
+            text: currentText,
         };
         this.socket.emit('chat message', msg);
-        // Reset textInput to empty
-        this.textInput.current.value = '';
     }
 
     render() {

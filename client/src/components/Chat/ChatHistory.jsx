@@ -16,13 +16,21 @@ class ChatHistory extends React.Component {
      * Sets up the socket.io listeners
      */
     componentDidMount() {
+        // Handle initialization of history
         this.socket.on('chat history', (chatHistory) => {
             this.setState({history: chatHistory})
         });
 
+        // Handle incoming messages
         this.socket.on('chat message', (msg) => {
             this.addMsgToHistory(msg);
         });
+
+        // Handle response to command
+        this.socket.on('chat command', (cmd) => {
+            console.log(cmd);
+            this.addMsgToHistory(cmd);
+        })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
