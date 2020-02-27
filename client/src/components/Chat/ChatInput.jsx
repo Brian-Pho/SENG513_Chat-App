@@ -10,12 +10,12 @@ class ChatInput extends React.Component {
         // Create a React reference for text input
         this.textInput = React.createRef();
         this.socket = props.socket;
-        this.state = {userInfo: props.userInfo};
+        this.state = {userInfo: props.user};
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if  (prevProps.userInfo !== this.props.userInfo) {
-            this.setState({userInfo: this.props.userInfo});
+        if  (prevProps.user !== this.props.user) {
+            this.setState({user: this.props.user});
         }
     }
 
@@ -23,16 +23,23 @@ class ChatInput extends React.Component {
      * Sends the user's message to the server
      */
     sendMsg() {
+        // If no message, don't do anything
+        if (!this.textInput.current.value) {
+            return;
+        }
+
         const msg = {
-            userInfo: this.state.userInfo,
+            user: this.state.user,
             text: this.textInput.current.value,
         };
         this.socket.emit('chat message', msg);
+        // Reset textInput to empty
+        this.textInput.current.value = '';
     }
 
     render() {
         return (
-            <div className="ChatInput">
+            <div className="ChatInput rounded">
                 <InputGroup className="mb-3">
                     <FormControl ref={this.textInput}/>
                     <InputGroup.Append>

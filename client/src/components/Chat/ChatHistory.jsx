@@ -7,7 +7,7 @@ class ChatHistory extends React.Component {
         this.socket = props.socket;
         this.state = {
             history: [],
-            userInfo: props.userInfo,
+            user: props.user,
         };
     }
 
@@ -25,8 +25,8 @@ class ChatHistory extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if  (prevProps.userInfo !== this.props.userInfo) {
-            this.setState({userInfo: this.props.userInfo});
+        if  (prevProps.user !== this.props.user) {
+            this.setState({user: this.props.user});
         }
     }
 
@@ -37,9 +37,14 @@ class ChatHistory extends React.Component {
     }
 
     formatUserMsg(msg, index) {
-        let userMsg = (<>{msg.userInfo.userName}: {msg.text}</>);
-        console.log(msg.userInfo, this.state.userInfo);
-        if (JSON.stringify(msg.userInfo) === JSON.stringify(this.state.userInfo)) {
+        const userColor = {
+            color: `#${msg.user.color}`
+        };
+
+        let userMsg = (<><span style={userColor}>{msg.user.name}</span>: {msg.text}</>);
+
+        console.log(msg.user, this.state.user);
+        if (JSON.stringify(msg.user) === JSON.stringify(this.state.user)) {
             userMsg = (<b>{userMsg}</b>);
         }
 
@@ -50,7 +55,7 @@ class ChatHistory extends React.Component {
 
     render() {
         return (
-            <div className="ChatHistory p-3">
+            <div className="ChatHistory p-3 rounded">
             {this.state.history.slice(0).reverse().map((msg, index) => this.formatUserMsg(msg, index))}
             </div>
         );

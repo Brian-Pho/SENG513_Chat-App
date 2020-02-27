@@ -9,21 +9,25 @@ import ChatHistory from "./ChatHistory";
 class Chat extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {userInfo: props.userInfo};
+        this.state = {user: props.user};
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if  (prevProps.userInfo !== this.props.userInfo) {
-            this.setState({userInfo: this.props.userInfo});
+        if  (prevProps.user !== this.props.user) {
+            this.setState({user: this.props.user});
         }
     }
 
     render() {
+        const userColor = {
+            color: `#${this.state.user.color}`
+        };
+
         return (
             <div className="Chat">
-                <p>{this.state.userInfo.userName} {this.state.userInfo.userColor}</p>
-                <ChatHistory socket={this.props.socket} userInfo={this.state.userInfo}/>
-                <ChatInput socket={this.props.socket} userInfo={this.state.userInfo}/>
+                <p>You are <b style={userColor}>{this.state.user.name}</b>.</p>
+                <ChatHistory socket={this.props.socket} user={this.state.user}/>
+                <ChatInput socket={this.props.socket} user={this.state.user}/>
             </div>
         );
     }

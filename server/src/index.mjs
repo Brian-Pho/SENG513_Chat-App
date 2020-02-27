@@ -19,13 +19,13 @@ const onlineUsers = [];
 
 socketIo.on('connection', (socket) => {
     // TODO: Assign unique nickname and send to client
-    const userInfo = {
-        userName: `User${Math.round(Math.random() * 10)}`,
-        userColor: `${Math.floor(Math.random()*16777215).toString(16)}`,
+    const user = {
+        name: `User${Math.round(Math.random() * 10)}`,
+        color: `${Math.floor(Math.random()*16777215).toString(16)}`,
     };
-    onlineUsers.push(userInfo);
-    console.log(userInfo);
-    socket.emit('userInfo', userInfo);
+    onlineUsers.push(user);
+    console.log(user);
+    socket.emit('user', user);
 
     // TODO: Send chat history
     socket.emit('chat history', chatHistory);
@@ -35,9 +35,7 @@ socketIo.on('connection', (socket) => {
 
     socket.on('chat message', (msg) => {
         // TODO: Check if message is a command
-        console.log('---msg---');
         console.log(msg);
-        console.log('---msg---');
         // TODO: Add timestamp to messages
         socketIo.emit('chat message', msg);
     });

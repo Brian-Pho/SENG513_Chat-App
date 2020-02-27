@@ -13,12 +13,12 @@ class App extends React.Component {
         super(props);
         // Connect to the socket.io server at this endpoint
         this.socket = io('http://localhost:3001');
-        this.state = {userInfo: {userName: 'ERROR', userColor: 'ERROR'}};
+        this.state = {user: {name: 'ERROR', color: 'ERROR'}};
     }
 
     componentDidMount() {
-        this.socket.on('userInfo', (userInfo) => {
-            this.setState({userInfo: userInfo});
+        this.socket.on('user', (user) => {
+            this.setState({user: user});
         });
     }
 
@@ -28,11 +28,11 @@ class App extends React.Component {
             <div className="App">
                 <Container>
                     <Row>
-                        <Col>
+                        <Col className="rounded">
                             <h2>Chat</h2>
-                            <Chat socket={this.socket} userInfo={this.state.userInfo}/>
+                            <Chat socket={this.socket} user={this.state.user}/>
                         </Col>
-                        <Col>
+                        <Col className="rounded">
                             <h2>Users</h2>
                             <Users socket={this.socket}/>
                         </Col>
