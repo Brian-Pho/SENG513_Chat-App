@@ -34,11 +34,11 @@ class App extends React.Component {
             <div className="App">
                 <Container>
                     <Row>
-                        <Col className="rounded">
+                        <Col className="rounded-left">
                             <h2>Chat</h2>
                             <Chat socket={this.socket} user={this.state.user}/>
                         </Col>
-                        <Col className="rounded">
+                        <Col className="rounded-right">
                             <h2>Users</h2>
                             <Users socket={this.socket}/>
                         </Col>

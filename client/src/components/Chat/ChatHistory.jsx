@@ -73,7 +73,7 @@ class ChatHistory extends React.Component {
 
     render() {
         return (
-            <div className="ChatHistory p-3 rounded">
+            <div className="ChatHistory p-3 rounded-top">
             {this.state.history.slice(0).reverse().map(
                 (msg, index) => this.formatUserMsg(msg, index)
             )}

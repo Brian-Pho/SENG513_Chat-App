@@ -52,7 +52,7 @@ class ChatInput extends React.Component {
 
     render() {
         return (
-            <div className="ChatInput rounded">
+            <div className="ChatInput rounded-bottom">
                 <InputGroup className="mb-3">
                     <FormControl
                         ref={this.textInput}
