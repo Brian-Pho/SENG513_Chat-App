@@ -1,4 +1,5 @@
 import React from "react";
+import './ChatHistory.css';
 
 class ChatHistory extends React.Component {
     constructor(props) {
@@ -16,15 +17,22 @@ class ChatHistory extends React.Component {
         });
 
         this.socket.on('chat message', (msg) => {
-            console.log("1" + msg);
-            this.setState((state, props) => {
-                history: state.history.concat(msg)
-            })
+            this.addMsgToHistory(msg);
         });
     }
 
+    addMsgToHistory(msg) {
+        this.setState((state) => ({
+            history: state.history.concat(msg)
+        }))
+    }
+
     render() {
-        return (<p>fdsa</p>);
+        return (
+            <div className="ChatHistory">
+            {this.state.history.slice(0).reverse().map((msg) => <p>{msg}</p>)}
+            </div>
+        );
     }
 }
 
