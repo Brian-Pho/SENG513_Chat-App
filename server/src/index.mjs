@@ -17,7 +17,6 @@ index.get('/', (req, res) => {
     res.send("<p>Chat Server Page. This page isn't used for chatting.</p>");
 });
 
-// TODO: Fix bug where disconnecting original user causes all other users to lose online list
 // List of previous messages with the poster and timestamp
 const chatHistory = [];
 // List of online users
@@ -69,11 +68,9 @@ allSockets.on('connection', (socket) => {
             handleCommand(cmd, user, onlineUsers);
             allSockets.emit('online users', onlineUsers);
             socket.emit('user', user);
-        }
-        catch (err) {
+        } catch (err) {
             serverResponse.text = `Error handling command: ${err}`;
-        }
-        finally {
+        } finally {
             socket.emit('chat command', serverResponse);
         }
         console.log('cmd: ' + cmd);
@@ -83,7 +80,11 @@ allSockets.on('connection', (socket) => {
     socket.on('disconnect', () => {
         // Remove the user from the online users list
         const disconnectedUserIndex = onlineUsers.indexOf(user);
-        onlineUsers.splice(disconnectedUserIndex);
+        if (disconnectedUserIndex > -1) {
+            onlineUsers.splice(disconnectedUserIndex, 1);
+        } else {
+            console.log('user not found: ' + JSON.stringify(user));
+        }
 
         // Tell all clients to update their online user list
         allSockets.emit('online users', onlineUsers);
