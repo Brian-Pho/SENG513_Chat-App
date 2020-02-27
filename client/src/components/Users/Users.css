@@ -1,3 +1,8 @@
 .Users {
   text-align: center;
 }
+
+.Online {
+  height: 500px;
+  overflow: auto;
+}

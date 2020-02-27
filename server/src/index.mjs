@@ -5,46 +5,49 @@ import moment from "moment";
 
 const index = express();
 const server = http.createServer(index);
-const socketIo = io(server);
+const allSockets = io(server);
 
 index.get('/', (req, res) => {
     res.send("<p>Chat Server Page. This page isn't used for chatting.</p>");
 });
 
-// TODO: Chat history / log
 const chatHistory = [];
 
-// TODO: Connected users list
+// TODO: Fix bug where disconnecting original user causes all other users to lose online list
 const onlineUsers = [];
 
-socketIo.on('connection', (socket) => {
-    // TODO: Assign unique nickname and send to client
+allSockets.on('connection', (socket) => {
+    // Autogenerate the connected user
     const user = {
         name: `User${Math.round(Math.random() * 10)}`,
-        color: `${Math.floor(Math.random()*16777215).toString(16)}`,
+        color: `${Math.floor(Math.random() * 16777215).toString(16)}`,
     };
     onlineUsers.push(user);
-    console.log(user);
-    socket.emit('user', user);
 
-    // TODO: Send chat history
+    socket.emit('user', user);
+    console.log('user connected: ' + JSON.stringify(user));
     socket.emit('chat history', chatHistory);
-    // TODO: Send online users
-    socket.emit('online users', onlineUsers);
-    console.log('a user connected');
+    allSockets.emit('online users', onlineUsers);
 
     socket.on('chat message', (msg) => {
+        // Add the message to the chat history
         chatHistory.push(msg);
-        // TODO: Add timestamp to messages
+        // Calculate message timestamp
         msg.timestamp = moment().unix();
         // TODO: Check if message is a command
-        console.log(msg);
-        socketIo.emit('chat message', msg);
+        console.log('msg: ' + JSON.stringify(msg));
+        allSockets.emit('chat message', msg);
     });
 
     socket.on('disconnect', () => {
-        // TODO: Send online users
-        console.log('user disconnected');
+        // Remove the user from the online users list
+        const disconnectedUserIndex = onlineUsers.indexOf(user);
+        onlineUsers.splice(disconnectedUserIndex);
+
+        // Tell all clients to update their online user list
+        allSockets.emit('online users', onlineUsers);
+        // console.log(onlineUsers);
+        console.log('user disconnected: ' + JSON.stringify(user));
     });
 });
 
