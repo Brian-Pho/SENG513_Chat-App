@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import './ChatHistory.css';
 
 class ChatHistory extends React.Component {
@@ -37,13 +38,14 @@ class ChatHistory extends React.Component {
     }
 
     formatUserMsg(msg, index) {
-        const userColor = {
-            color: `#${msg.user.color}`
-        };
+        // Get the message user's color
+        const userColor = {color: `#${msg.user.color}`};
+        // Get the message timestamp and format it
+        const timestamp = moment.unix(msg.timestamp).format("H:m");
+        // Build the message to be display
+        let userMsg = (<>{timestamp} <span style={userColor}>{msg.user.name}</span>: {msg.text}</>);
 
-        let userMsg = (<><span style={userColor}>{msg.user.name}</span>: {msg.text}</>);
-
-        console.log(msg.user, this.state.user);
+        // If the message was sent by the user, bold the message
         if (JSON.stringify(msg.user) === JSON.stringify(this.state.user)) {
             userMsg = (<b>{userMsg}</b>);
         }

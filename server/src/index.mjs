@@ -34,9 +34,11 @@ socketIo.on('connection', (socket) => {
     console.log('a user connected');
 
     socket.on('chat message', (msg) => {
+        chatHistory.push(msg);
+        // TODO: Add timestamp to messages
+        msg.timestamp = moment().unix();
         // TODO: Check if message is a command
         console.log(msg);
-        // TODO: Add timestamp to messages
         socketIo.emit('chat message', msg);
     });
 
