@@ -11,13 +11,6 @@ index.get('/', (req, res) => {
     res.send("<p>Chat Server Page. This page isn't used for chatting.</p>");
 });
 
-class User {
-    constructor(nickname, color) {
-        this.nickname = nickname;
-        this.color = color
-    }
-}
-
 // TODO: Chat history / log
 const chatHistory = [];
 
@@ -26,8 +19,14 @@ const onlineUsers = [];
 
 socketIo.on('connection', (socket) => {
     // TODO: Assign unique nickname and send to client
-    socket.emit('userNickname', `${Math.round(Math.random() * 10)}`);
-    socket.emit('userColor', 'RRGGBB');
+    const userInfo = {
+        userName: `User${Math.round(Math.random() * 10)}`,
+        userColor: `${Math.floor(Math.random()*16777215).toString(16)}`,
+    };
+    onlineUsers.push(userInfo);
+    console.log(userInfo);
+    socket.emit('userInfo', userInfo);
+
     // TODO: Send chat history
     socket.emit('chat history', chatHistory);
     // TODO: Send online users
@@ -36,7 +35,9 @@ socketIo.on('connection', (socket) => {
 
     socket.on('chat message', (msg) => {
         // TODO: Check if message is a command
-        console.log('message: ' + msg);
+        console.log('---msg---');
+        console.log(msg);
+        console.log('---msg---');
         // TODO: Add timestamp to messages
         socketIo.emit('chat message', msg);
     });
