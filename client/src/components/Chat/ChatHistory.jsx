@@ -67,7 +67,7 @@ class ChatHistory extends React.Component {
         }
 
         return (
-            <p key={index} className="m-0">{userMsg}</p>
+            <p key={index} className="text-break m-0">{userMsg}</p>
         );
     }
 
