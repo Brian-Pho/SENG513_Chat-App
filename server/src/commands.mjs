@@ -27,8 +27,7 @@ export function isValidCommand(cmd, onlineUsers) {
     }
 
     // Check if new nickname is unique
-    const nicknames = onlineUsers.map((user) => user.name);
-    if (command === '/nick' && nicknames.includes(arg)) {
+    if (command === '/nick' && !isUsernameUnique(arg, onlineUsers)) {
         throw `Nickname (${arg}) isn't unique.`;
     }
 
@@ -61,4 +60,15 @@ export function handleCommand(cmd, user, onlineUsers) {
         user.color = arg;
         onlineUsers[userIndex].color = arg;
     }
+}
+
+/**
+ * Checks if the given username is unique.
+ * @param username
+ * @param onlineUsers
+ * @returns {boolean}
+ */
+export function isUsernameUnique(username, onlineUsers) {
+    const usernames = onlineUsers.map((user) => user.name);
+    return !usernames.includes(username)
 }

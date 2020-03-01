@@ -8,7 +8,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // components takes precedence over default styles.
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { CookiesProvider } from 'react-cookie';
 import './index.css';
 import App from './components/App/App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<CookiesProvider><App /></CookiesProvider>, document.getElementById('root'));

@@ -7,7 +7,7 @@ import express from 'express';
 import http from 'http';
 import io from 'socket.io';
 import moment from "moment";
-import {handleCommand, isValidCommand} from "./commands.mjs";
+import {handleCommand, isValidCommand, isUsernameUnique} from "./commands.mjs";
 
 const index = express();
 const server = http.createServer(index);
@@ -31,19 +31,35 @@ const serverUser = {
 
 // On connection of a new client
 allSockets.on('connection', (socket) => {
-    // Autogenerate the connected user
-    const user = {
-        name: `User${countUser}`,
-        color: `${Math.floor(Math.random() * 16777215).toString(16)}`,
-    };
-    countUser++;
-    onlineUsers.push(user);
+    let user = undefined;
 
-    // Send the initial data dump of the client's user, chat history, and online users
-    socket.emit('user', user);
-    socket.emit('chat history', chatHistory);
-    allSockets.emit('online users', onlineUsers);
-    console.log('user connected: ' + JSON.stringify(user));
+    // Handle user initialization
+    socket.on('cookie user', (cookieUser) => {
+        const cookieUsername = cookieUser.name;
+
+        // If this is a new user or if the user doesn't have a unique username,
+        // then autogenerate a user for them
+       if (cookieUsername === 'Offline' || !isUsernameUnique(cookieUsername, onlineUsers)) {
+           // Loop until a unique username is found. Is needed to handle the case when
+           // another username is the same as the generated one
+           do {
+               user = {
+                   name: `User${countUser}`,
+                   color: `${Math.floor(Math.random() * 16777215).toString(16)}`,
+               };
+               countUser++;
+           } while (!isUsernameUnique(user.name, onlineUsers));
+       } else {
+            user = cookieUser;
+       }
+        onlineUsers.push(user);
+
+        // Send the initial data dump of the client's user, chat history, and online users
+        allSockets.emit('online users', onlineUsers);
+        socket.emit('user', user);
+        socket.emit('chat history', chatHistory);
+        console.log('user connected: ' + JSON.stringify(user));
+    });
 
     // Handle chat messages
     socket.on('chat message', (msg) => {
