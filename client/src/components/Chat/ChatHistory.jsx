@@ -62,7 +62,7 @@ class ChatHistory extends React.Component {
         let userMsg = (<>{timestamp} <span style={userColor}>{msg.user.name}</span>: {msg.text}</>);
 
         // If the message was sent by the user, bold the message
-        if (JSON.stringify(msg.user) === JSON.stringify(this.state.user)) {
+        if (JSON.stringify(msg.user.name) === JSON.stringify(this.state.user.name)) {
             userMsg = (<b>{userMsg}</b>);
         }
 
