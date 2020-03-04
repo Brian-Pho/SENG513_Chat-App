@@ -7,7 +7,7 @@ import express from 'express';
 import http from 'http';
 import io from 'socket.io';
 import moment from "moment";
-import {handleCommand, isValidCommand, isUsernameUnique} from "./commands.mjs";
+import { handleCommand, isValidCommand, isUsernameUnique } from "./commands.mjs";
 
 const index = express();
 const server = http.createServer(index);
@@ -55,9 +55,9 @@ allSockets.on('connection', (socket) => {
         onlineUsers.push(user);
 
         // Send the initial data dump of the client's user, chat history, and online users
-        allSockets.emit('online users', onlineUsers);
         socket.emit('user', user);
         socket.emit('chat history', chatHistory);
+        allSockets.emit('online users', onlineUsers);
         console.log('user connected: ' + JSON.stringify(user));
     });
 
