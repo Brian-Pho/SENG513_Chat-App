@@ -31,7 +31,7 @@ class ChatHistory extends React.Component {
             this.addMsgToHistory(msg);
         });
 
-        // Handle server response to command
+        // Handle server response to commands
         this.socket.on('chat command', (cmd) => {
             this.addMsgToHistory(cmd);
         })
@@ -58,7 +58,7 @@ class ChatHistory extends React.Component {
         const userColor = {color: `#${msg.user.color}`};
         // Get the message timestamp and format it
         const timestamp = moment.unix(msg.timestamp).format("H:mm");
-        // Build the message to be display
+        // Build the message to be displayed
         let userMsg = (<>{timestamp} <span style={userColor}>{msg.user.name}</span>: {msg.text}</>);
 
         // If the message was sent by the user, bold the message
