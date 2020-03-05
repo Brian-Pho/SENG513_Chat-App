@@ -32,7 +32,7 @@ class Users extends React.Component {
         const userColor = {color: `#${user.color}`};
 
         return (
-            <ListGroupItem key={index}><span style={userColor}>{user.name}</span></ListGroupItem>
+            <ListGroupItem key={index}><span style={userColor} className="text-break">{user.name}</span></ListGroupItem>
         );
     }
 
